@@ -17,6 +17,10 @@ namespace WorldData.Models
       _country = country;
       _city = city;
     }
+    public World (string country)
+    {
+      _country = country;
+    }
     public void SetCountry(string country)
     {
       _country= country;
@@ -39,14 +43,14 @@ namespace WorldData.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT * FROM world;";
+      cmd.CommandText = @"SELECT * FROM country;";
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
         int worldId = rdr.GetInt32(0);
-        string worldCountry = rdr.GetString(1);
-        string worldCity = rdr.GetString(1);
-        World newWorld = new World(worldId, worldCountry, worldCity);
+        string countryName = rdr.GetString(1);
+        // string worldCity = rdr.GetString(1);
+        World newWorld = new World(countryName);
         allItems.Add(newWorld);
       }
       conn.Close();
