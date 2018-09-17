@@ -7,13 +7,26 @@
 </head>
 <body>
   <div class="container">
-    <h1 class="jumbotron">Data</h1>
+    <h1 class="jumbotron">Country List</h1>
+    <form class="" action="/data" method="post">
+      <div>
+        <input type="radio"
+        name="order" value="DESC" />
+        <label for="ORDER">Descending Order</label>
+      </div>
+      <div>
+        <input type="radio"
+        name="order" value="ASC"/>
+        <label for="ORDER">Ascending Order</label>
+      </div>
+      <button type="submit">Sort</button>
+    </form>
     <ol>
-    @foreach(var data in Model)
-    {
-      <li>@data.GetCountry()</li>
-    }
-  </ol>
+      @foreach(var data in Model)
+      {
+        <li>@data.GetCountry()</li>
+      }
+    </ol>
   </div>
 </body>
 </html>

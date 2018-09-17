@@ -50,7 +50,30 @@ namespace WorldData.Models
       }
       return allItems;
     }
+    public static List<World> FilterCountry(string order)
+    {
+      List<World> sortCountry = new List<World> {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM country ORDER BY name "+order+";";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        string worldId = rdr.GetString(0);
+        string countryName = rdr.GetString(1);
+        World newWorld = new World(countryName);
+        sortCountry.Add(newWorld);
+      }
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return sortCountry;
+    }
   }
+
   public class City
   {
     private string _city;

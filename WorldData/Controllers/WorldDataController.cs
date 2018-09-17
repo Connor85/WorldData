@@ -18,5 +18,11 @@ namespace WorldData.Controllers
       List<City> newCities = City.GetAllCities();
       return View(newCities);
     }
+    [HttpPost("/data")]
+    public ActionResult AscendingData()
+    {
+      List<World> countryName =  World.FilterCountry(Request.Form["order"].ToString());
+      return View("WorldData", countryName);
+    }
   }
 }
