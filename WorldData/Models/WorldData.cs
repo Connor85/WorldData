@@ -9,13 +9,11 @@ namespace WorldData.Models
   {
     private int _id = 0;
     private string _country;
-    private string _city;
 
-    public World (int id, string country, string city)
+    public World (int id, string country)
     {
       _id = id;
       _country = country;
-      _city = city;
     }
     public World (string country)
     {
@@ -25,17 +23,10 @@ namespace WorldData.Models
     {
       _country= country;
     }
-    public void SetCity (string city)
-    {
-      _city= city;
-    }
+
     public string GetCountry()
     {
       return _country;
-    }
-    public string GetCity()
-    {
-      return _city;
     }
     public static List<World> GetAll()
     {
@@ -47,9 +38,8 @@ namespace WorldData.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        int worldId = rdr.GetInt32(0);
+        string worldId = rdr.GetString(0);
         string countryName = rdr.GetString(1);
-        // string worldCity = rdr.GetString(1);
         World newWorld = new World(countryName);
         allItems.Add(newWorld);
       }
@@ -59,6 +49,55 @@ namespace WorldData.Models
         conn.Dispose();
       }
       return allItems;
+    }
+  }
+  public class City
+  {
+    private string _city;
+    private int _population;
+
+    public City (string city, int population)
+    {
+      _city = city;
+      _population = population;
+    }
+    public void SetCity (string city)
+    {
+      _city= city;
+    }
+    public void SetPopulation (int population)
+    {
+      _population = population;
+    }
+    public string GetCity()
+    {
+      return _city;
+    }
+    public int GetPopulation()
+    {
+      return _population;
+    }
+    public static List<City> GetAllCities()
+    {
+      List<City> allCities = new List<City> {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM city;";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        string cityName = rdr.GetString(1);
+        int cityPopulation = rdr.GetInt32(4);
+        City newCity = new City(cityName, cityPopulation);
+        allCities.Add(newCity);
+      }
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return allCities;
     }
   }
 }
