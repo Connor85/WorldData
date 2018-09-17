@@ -24,5 +24,11 @@ namespace WorldData.Controllers
       List<World> countryName =  World.FilterCountry(Request.Form["order"].ToString());
       return View("WorldData", countryName);
     }
+    [HttpPost("/continent")]
+    public ActionResult Continent()
+    {
+      List<World> countryName = World.FilterContinent(Request.Form["continent"].ToString());
+      return View(countryName);
+    }
   }
 }

@@ -72,6 +72,28 @@ namespace WorldData.Models
       }
       return sortCountry;
     }
+    public static List<World> FilterContinent(string continent)
+    {
+      List<World> sortContinent = new List<World> {};
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT * FROM country WHERE Continent IN ('"+continent+"');";
+      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+      while(rdr.Read())
+      {
+        string worldId = rdr.GetString(0);
+        string countryName = rdr.GetString(1);
+        World newWorld = new World(countryName);
+        sortContinent.Add(newWorld);
+      }
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return sortContinent;
+    }
   }
 
   public class City
